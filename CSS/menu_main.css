@@ -1,0 +1,321 @@
+html{
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+@font-face {
+    font-family: pixel;
+    src: url(C&C Red Alert [INET].ttf) format("truetype");
+}
+
+body{
+    position: absolute;
+    width: 1280px;
+    height: 960px;
+    background-size: auto;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    animation-name: bg;
+    animation-duration: 4.8s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+#titulo{
+    position: absolute;
+    margin: 0px;
+    left: 237px;
+    top:  200px;
+    width: 811px;
+    height: 102px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    animation-name: title;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+}
+#window{
+    position: absolute;
+    margin: 0px;
+    left: 500px;
+    top:  389px;
+    width: 280px;
+    height: 360px;
+    background-image: url("../resources/main_menu/menu_window/menu_window.png");
+    background-size: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+
+@keyframes
+bg
+{
+  0%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame1.png");
+  }
+  4.2%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame2.png");
+  }
+  8.4%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame3.png");
+  }
+  12.6%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame4.png");
+  }
+  16.8%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame5.png");
+  }
+  21%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame6.png");
+  }
+  25.2%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame7.png");
+  }
+  28.4%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame8.png");
+  }
+  33.6%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame9.png");
+  }
+  37.8%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame10.png");
+  }
+  42%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame11.png");
+  }
+  46.2%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame12.png");
+  }
+  50.4%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame13.png");
+  }
+  54.6%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame14.png");
+  }
+  58.8%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame15.png");
+  }
+  63%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame16.png");
+  }
+  67.2%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame17.png");
+  }
+  71.4%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame18.png");
+  }
+  75.6%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame19.png");
+  }
+  79.8%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame20.png");
+  }
+  84%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame21.png");
+  }
+  88.2%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame22.png");
+  }
+  92.4%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame23.png");
+  }
+  96.6%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame24.png");
+  }
+  100%
+  {
+    background-image: url("../resources/main_menu/menu_background/frame1.png");
+  }  
+}
+@keyframes
+    title
+    {  
+      0%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame1.png");
+      }
+      5%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame2.png");
+      }
+      10%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame3.png");
+      }
+      15%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame4.png");
+      }
+      20%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame5.png");
+      }
+      25%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame6.png");
+      }
+      30%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame7.png");
+      }
+      35%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame8.png");
+      }
+      40%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame9.png");
+      }
+      45%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame10.png");
+      }
+      50%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame11.png");
+      }
+      55%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame12.png");
+      }
+      60%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame13.png");
+      }
+      65%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame14.png");
+      }
+      708%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame15.png");
+      }
+      75%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame16.png");
+      }
+      80%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame17.png");
+      }
+      85%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame18.png");
+      }
+      90%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame19.png");
+      }
+      100%
+      {
+        background-image: url("../resources/main_menu/menu_title/frame1.png");
+      }
+    }
+}
+
+nav button{
+    border: none;
+    position: relative;
+    cursor: pointer;
+    left: 0px;
+    width: 10%;
+}
+nav{
+    padding-top: 460px;
+    left: 360px;
+    display: inline-block;
+    width: 280px;
+    height: 360px;
+}
+button:hover
+{
+    cursor: pointer;
+}
+
+#PlayBtn{
+    position: relative;
+    left: 552px;
+    top: auto;
+    width: 176px;
+    height: 48px;
+    background-image: url("../resources/main_menu/buttons/button_default_base_blue_play.png");
+    border: 0;
+    background-size: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition-duration: 1s;
+}
+#PlayBtn:hover
+{
+    cursor: pointer;
+    background-image: url("../resources/main_menu/buttons/button_pressed_base_blue_play.png");
+}
+
+#OptionsBtn{
+    position: relative;
+    left: 552px;
+    top: auto;
+    width: 176px;
+    height: 48px;
+    background-image: url("../resources/main_menu/buttons/button_default_base_blue_options.png");
+    border: 0;
+    background-size: 176px 48px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition-duration: 1s;
+    top: 30px;
+}
+#OptionsBtn:hover
+{
+    cursor: pointer;
+    background-image: url("../resources/main_menu/buttons/button_pressed_base_blue_options.png");
+}
+
+#ExitBtn{
+    position: relative;
+    left: 552px;
+    top: auto;
+    width: 176px;
+    height: 48px;
+    background-image: url("../resources/main_menu/buttons/button_default_base_blue_quit.png");
+    border:0;
+    background-size: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition-duration: 1s;
+    top: 60px;
+}
+#ExitBtn:hover
+{
+    cursor: pointer;
+    background-image: url("../resources/main_menu/buttons/button_pressed_base_blue_quit.png");
+}
+
