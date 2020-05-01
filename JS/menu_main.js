@@ -8,7 +8,6 @@
 
 function main(){
 
-
 	const audio = new Audio("../resources/main_menu/soundtrack/main_menu.mp3");
 	audio.play();
 	audio.volume=1;
@@ -33,5 +32,4 @@ function main(){
 	btnExit.onclick = function() {
 		mainSource.postMessage('Quit.html', '*');
     }
-   
 }
