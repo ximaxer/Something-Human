@@ -260,7 +260,7 @@ button:hover
     cursor: pointer;
 }
 
-#PlayBtn{
+#StartGameBtn{
     position: relative;
     left: 552px;
     top: auto;
@@ -273,7 +273,7 @@ button:hover
     background-repeat: no-repeat;
     transition-duration: 1s;
 }
-#PlayBtn:hover
+#StartGameBtn:hover
 {
     cursor: pointer;
     background-image: url("../resources/main_menu/buttons/button_pressed_base_blue_play.png");
