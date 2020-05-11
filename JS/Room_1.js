@@ -4,9 +4,9 @@ class Room_1 extends Phaser.Scene {
 	}
 
 	preload(){
-		this.load.image("background",("../resources/levels/level_1/room_1/background.png"));
+		this.load.image("background",("../resources/levels/level_1/room_1/background_f.png"));
 		this.load.image("terrain",("../resources/levels/level_1/room_1/room_1.png"));
-
+		this.load.tilemapTiledJSON("map","../resources/levels/level_1/maps/room_1_tilemap.json")
 
 
 		//this.load.spritesheet()
@@ -17,9 +17,7 @@ class Room_1 extends Phaser.Scene {
 	}
 
 	create(){
-		this.background = this.add.image(0,0,"background");
-		this.background.setOrigin(0,0);
-
+		
 		this.anims.create({
 			key: "character_walk",
 			frames: this.anims.generateFrameNumbers("character"),
@@ -27,25 +25,30 @@ class Room_1 extends Phaser.Scene {
 			repeat: -1
 		});
 
-		this.terrain = this.physics.add.sprite(0,0,"terrain");
-		this.terrain.setOrigin(0,0);
+		
 		var character = this.character = this.physics.add.sprite(200,200,"character");
 		this.character.setOrigin(0,0);
 		this.character.play("character_walk");
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
 		this.character.setCollideWorldBounds(true);
 		character.body.setSize(character.width,character.height,true);
-		this.physics.add.collider(this.terrain, this.character, function(terrain,character){
-			console.log("colisao efetuada");
-		});
+		
 
+		let map = this.add.tilemap("map");
+		let background = map.addTilesetImage("background_f", "background");
+		let terrain = map.addTilesetImage("room_1","terrain");
 
+		//layers
+		let groundLayer = map.createStaticLayer("platforms", [terrain],0,0);
+		let bgLayer = map.createStaticLayer("backgrounds", [background],0,0).setDepth(-1);
 
-
+		//collisions
+		this.physics.add.collider(this.character,groundLayer, () =>{console.log("colision detected")});
+		groundLayer.setCollisionByProperty({collides:true});
 
 		this.a = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 		this.d = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-		character.setVelocity(0,160);
+		character.setVelocity(0,260);
 	}
 
 	movePlayerManager(){
@@ -61,6 +64,7 @@ class Room_1 extends Phaser.Scene {
 
 
 	update(){
+		this.character.setVelocity(0,260);
 		this.movePlayerManager();
 	}
 
