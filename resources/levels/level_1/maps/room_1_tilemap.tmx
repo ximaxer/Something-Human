@@ -1251,6 +1251,11 @@
     </object>
    </objectgroup>
   </tile>
+  <tile id="559">
+   <properties>
+    <property name="right_exit" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="560">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -1271,6 +1276,11 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="599">
+   <properties>
+    <property name="right_exit" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="600">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -1289,6 +1299,11 @@
   <tile id="603">
    <properties>
     <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="639">
+   <properties>
+    <property name="right_exit" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="640">
@@ -1722,6 +1737,11 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="920">
+   <properties>
+    <property name="left_exit" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="956">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -1742,6 +1762,11 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="960">
+   <properties>
+    <property name="left_exit" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="996">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -1760,6 +1785,11 @@
   <tile id="999">
    <properties>
     <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1000">
+   <properties>
+    <property name="left_exit" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="1007">
