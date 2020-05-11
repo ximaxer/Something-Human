@@ -45,6 +45,7 @@ class Room_1 extends Phaser.Scene {
 		//collisions
 		this.physics.add.collider(this.character,groundLayer, () =>{console.log("colision detected")});
 		groundLayer.setCollisionByProperty({collides:true});
+		//this.physics.add.collider(groundLayer, this.character, isColliding(groundLayer,this.character));
 
 		this.a = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 		this.d = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -61,6 +62,10 @@ class Room_1 extends Phaser.Scene {
 		}else this.character.setVelocityX(0);
 
 	}
+
+	/*isColliding(a,b){
+		if()
+	}*/
 
 
 	update(){
