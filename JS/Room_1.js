@@ -8,17 +8,20 @@ class Room_1 extends Phaser.Scene {
 		this.load.image("bg",("../resources/levels/level_1/room_1/bg.png"))
 		this.load.image("terrain",("../resources/levels/level_1/room_1/room_1.png"));
 		this.load.tilemapTiledJSON("map","../resources/levels/level_1/maps/room_1_tilemap.json")
+		this.load.spritesheet("enemy_4","../resources/characters/enemy4_tileset.png", {frameHeight: 114, frameWidth: 92});
+		this.load.spritesheet("character","../resources/characters/MainCharacter.png", {frameWidth: 23, frameHeight: 70});
 
-		var grounded, escadas_dir, escadas_esq;
-		//this.load.spritesheet()
-		this.load.spritesheet("character","../resources/MainCharacter.png",{
-			frameWidth:23, 
-			frameHeight:70
-		});
-	}
+		var escadas_dir, escadas_esq;
+	}		
 
 	create(){
-		this.grounded=0;
+
+		this.character = {
+        	'jumps': null,
+        	'grounded': null,
+    	},
+		this.character.grounded=0;
+		this.character.jumps=0;
 		this.escadas_dir=0;
 		this.escadas_esq=0;
 		this.anims.create({
@@ -28,13 +31,24 @@ class Room_1 extends Phaser.Scene {
 			repeat: -1
 		});
 
-		
+		this.anims.create({
+			key: "enemy4_walk",
+			frames: this.anims.generateFrameNumbers("enemy_4"),
+			frameRate: 8,
+			repeat: -1
+		});
+
+		let enemy4 = this.enemy4 = this.physics.add.sprite(512,303,"enemy_4");
+		this.enemy4.setOrigin(0,0);
+		this.enemy4.play("enemy4_walk");
 		let character = this.character = this.physics.add.sprite(200,200,"character");
 		this.character.setOrigin(0,0);
 		this.character.play("character_walk");
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
 		this.character.setCollideWorldBounds(true);
 		character.body.setSize(character.width,character.height,true);
+		this.enemy4.setCollideWorldBounds(true);
+		enemy4.body.setSize(enemy4.width,enemy4.height,true);
 		
 		let map = this.add.tilemap("map");
 		let background = map.addTilesetImage("background_f", "background");
@@ -44,45 +58,68 @@ class Room_1 extends Phaser.Scene {
 		this.bg.setOrigin(0,0);
 
 		//layers
+		let wallLayer = map.createStaticLayer("walls", [terrain],0,0);
 		let groundLayer = map.createStaticLayer("platforms", [terrain],0,0);
-		let bgLayer = map.createStaticLayer("backgrounds", [background],0,0).setDepth(-1);
-
+		let bgLayer = map.createStaticLayer("backgrounds", [background],0,0).setDepth(-2);
 		//collisions
-		this.physics.add.collider(this.character,groundLayer, () =>{this.grounded=1; this.jumps=2;});
-		groundLayer.setCollisionByProperty({collides:true});
-		groundLayer.setTileLocationCallback(39,13,1,3,()=>{console.log("saida direita\n");});
-		groundLayer.setTileLocationCallback(0,23,1,3,()=>{console.log("saida esquerda\n");});
+		this.physics.add.collider(this.enemy4,groundLayer, () =>{});
+		this.physics.add.collider(this.enemy4,wallLayer, () =>{});
+		this.physics.add.collider(this.character,groundLayer, () =>{this.character.grounded=1;this.character.jumps=2;});
+		this.physics.add.collider(this.character,wallLayer, () =>{});
 
-		//escadas
-			//sobem para a direita
-		groundLayer.setTileLocationCallback(7,25,1,1,()=>{console.log(this.escadas_dir);this.escadas_dir=1;});
-		groundLayer.setTileLocationCallback(22,25,1,1,()=>{console.log(this.escadas_dir);this.escadas_dir=1;});
-			//sobem para a esquerda
-		groundLayer.setTileLocationCallback(17,25,1,1,()=>{console.log(this.escadas_esq);this.escadas_esq=1;});
-		groundLayer.setTileLocationCallback(32,25,1,1,()=>{console.log(this.escadas_esq);this.escadas_esq=1;});
+		wallLayer.setCollisionByProperty({wall:true});
+		groundLayer.setCollisionByProperty({collides:true});
+
+
+		groundLayer.setTileLocationCallback(39,13,1,3,()=>{console.log("right exit\n");});
+		groundLayer.setTileLocationCallback(0,23,1,3,()=>{console.log("left exit\n");});
+
+
+		groundLayer.setTileLocationCallback(15,12,1,1,()=>{console.log("left turning point\n");});
+		groundLayer.setTileLocationCallback(26,12,1,1,()=>{console.log("right turning point\n");});
+
+		//stairs
+			//stairs to the right
+		groundLayer.setTileLocationCallback(7,25,1,1,()=>{this.escadas_dir=1;});
+		groundLayer.setTileLocationCallback(22,25,1,1,()=>{this.escadas_dir=1;});
+			//stairs to the left
+		groundLayer.setTileLocationCallback(17,25,1,1,()=>{this.escadas_esq=1;});
+		groundLayer.setTileLocationCallback(32,25,1,1,()=>{this.escadas_esq=1;});
 			
 
-		//saidas de escadas
-			//sobem para a direita
+		//stairs exits
+			//stairs to the right
 				//saidaEscadasDir(){if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;}}
-		groundLayer.setTileLocationCallback(8,24,1,1,()=>{if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;}});
-		groundLayer.setTileLocationCallback(6,24,1,1,()=>{if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;}})
-		groundLayer.setTileLocationCallback(21,24,1,1,()=>{if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;}});
-		groundLayer.setTileLocationCallback(23,24,1,1,()=>{if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;}});
-			//sobrem para a esquerda
+		groundLayer.setTileLocationCallback(8,24,1,1,()=>{if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;character.setGravityY(575);}});
+		groundLayer.setTileLocationCallback(6,24,1,1,()=>{if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;character.setGravityY(575);}})
+		groundLayer.setTileLocationCallback(21,24,1,1,()=>{if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;character.setGravityY(575);}});
+		groundLayer.setTileLocationCallback(23,24,1,1,()=>{if(this.escadas_dir==1){this.character.setVelocityY(0);this.escadas_dir=0;character.setGravityY(575);}});
+			//stairs to the left
 				//saidaEscadasEsq(){if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;}}
-		groundLayer.setTileLocationCallback(16,24,1,1,()=>{if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;}});
-		groundLayer.setTileLocationCallback(18,24,1,1,()=>{if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;}});
-		groundLayer.setTileLocationCallback(31,24,1,1,()=>{if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;}});
-		groundLayer.setTileLocationCallback(33,24,1,1,()=>{if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;}});		
+		groundLayer.setTileLocationCallback(16,24,1,1,()=>{if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;character.setGravityY(575);}});
+		groundLayer.setTileLocationCallback(18,24,1,1,()=>{if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;character.setGravityY(575);}});
+		groundLayer.setTileLocationCallback(31,24,1,1,()=>{if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;character.setGravityY(575);}});
+		groundLayer.setTileLocationCallback(33,24,1,1,()=>{if(this.escadas_esq==1){this.character.setVelocityY(0);this.escadas_esq=0;character.setGravityY(575);}});
+
+
+
+
+
+		
+
 
 		this.a = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 		this.d = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 		this.w = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 		character.setGravityY(575);
+		enemy4.setGravityY(575);
 	}
 
-
+	enemy4behaviour(){
+		if(this.a.isDown){
+			this.enemy4.setVelocityX(110);
+		}
+	}
 
 	movePlayerManager(){
 		if(this.a.isDown){
@@ -101,14 +138,19 @@ class Room_1 extends Phaser.Scene {
 			}else if(this.escadas_esq>0){
 				this.character.setVelocityY(gameSettings.playerSpeed);  //sobe para a esq
 			}
-		}else this.character.setVelocityX(0);
-
+		}else{
+			if(this.escadas_esq==1 || this.escadas_dir==1){
+				this.character.setGravityY(0);
+				this.character.setVelocityY(0);
+			}
+			this.character.setVelocityX(0);
+		}
 		if(Phaser.Input.Keyboard.JustDown(this.w)){
-			if(this.jumps>0){
+			if(this.character.jumps>0){
 				this.escadas_dir=0;
 				this.escadas_esq=0;
 				this.character.setVelocityY(-275);
-				this.jumps-=1;
+				this.character.jumps-=1;
 			}
 		}
 	}
@@ -116,7 +158,7 @@ class Room_1 extends Phaser.Scene {
 
 
 	update(){
-		this.grounded=0;
+		this.enemy4behaviour();
 		this.movePlayerManager();
 		this.bg.tilePositionX -=.3;
 	}
