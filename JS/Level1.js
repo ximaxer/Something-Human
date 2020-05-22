@@ -1,6 +1,5 @@
 var gameSettings = {
-	playerSpeed: 200;
-	enemy4Speed: 110,
+	playerSpeed: 200,
 }
 
 

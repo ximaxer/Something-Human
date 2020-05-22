@@ -20,6 +20,9 @@ class Room_1 extends Phaser.Scene {
         	'jumps': null,
         	'grounded': null,
     	},
+    	this.enemy4 = {
+    		'current_velocity': null,
+    	},
 		this.character.grounded=0;
 		this.character.jumps=0;
 		this.escadas_dir=0;
@@ -41,6 +44,10 @@ class Room_1 extends Phaser.Scene {
 		let enemy4 = this.enemy4 = this.physics.add.sprite(512,303,"enemy_4");
 		this.enemy4.setOrigin(0,0);
 		this.enemy4.play("enemy4_walk");
+		this.enemy4.setVelocityX(110);
+		this.enemy4.current_velocity=110;
+
+
 		let character = this.character = this.physics.add.sprite(200,200,"character");
 		this.character.setOrigin(0,0);
 		this.character.play("character_walk");
@@ -59,17 +66,28 @@ class Room_1 extends Phaser.Scene {
 
 		//layers
 		let wallLayer = map.createStaticLayer("walls", [terrain],0,0);
+		let npc_pathLayer = map.createStaticLayer("npc_path", [background],0,0).setDepth(1);
 		let groundLayer = map.createStaticLayer("platforms", [terrain],0,0);
 		let bgLayer = map.createStaticLayer("backgrounds", [background],0,0).setDepth(-2);
+
 		//collisions
 		this.physics.add.collider(this.enemy4,groundLayer, () =>{});
 		this.physics.add.collider(this.enemy4,wallLayer, () =>{});
-		this.physics.add.collider(this.character,groundLayer, () =>{this.character.grounded=1;this.character.jumps=2;});
+		this.physics.add.collider(this.enemy4,npc_pathLayer, () =>{
+			this.enemy4.setVelocityX(-this.enemy4.current_velocity);
+			if(this.enemy4.flipX==false)this.enemy4.flipX=true;
+			else if(this.enemy4.flipX==true)this.enemy4.flipX=false;
+			this.enemy4.current_velocity=-this.enemy4.current_velocity;
+		});
+		this.physics.add.collider(this.character,groundLayer, () =>{
+			this.character.grounded=1;
+			this.character.jumps=2;
+		});
 		this.physics.add.collider(this.character,wallLayer, () =>{});
 
 		wallLayer.setCollisionByProperty({wall:true});
 		groundLayer.setCollisionByProperty({collides:true});
-
+		npc_pathLayer.setCollisionByProperty({turning_point:true});
 
 		groundLayer.setTileLocationCallback(39,13,1,3,()=>{console.log("right exit\n");});
 		groundLayer.setTileLocationCallback(0,23,1,3,()=>{console.log("left exit\n");});
@@ -115,11 +133,6 @@ class Room_1 extends Phaser.Scene {
 		enemy4.setGravityY(575);
 	}
 
-	enemy4behaviour(){
-		if(this.a.isDown){
-			this.enemy4.setVelocityX(110);
-		}
-	}
 
 	movePlayerManager(){
 		if(this.a.isDown){
@@ -146,6 +159,7 @@ class Room_1 extends Phaser.Scene {
 			this.character.setVelocityX(0);
 		}
 		if(Phaser.Input.Keyboard.JustDown(this.w)){
+				this.character.setGravityY(575);
 			if(this.character.jumps>0){
 				this.escadas_dir=0;
 				this.escadas_esq=0;
@@ -158,7 +172,6 @@ class Room_1 extends Phaser.Scene {
 
 
 	update(){
-		this.enemy4behaviour();
 		this.movePlayerManager();
 		this.bg.tilePositionX -=.3;
 	}
