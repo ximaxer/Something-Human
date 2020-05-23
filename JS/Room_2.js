@@ -48,7 +48,7 @@ class Room_2 extends Phaser.Scene {
 		*/
 
 
-		let character = this.character = this.physics.add.sprite(200,200,"character");
+		let character = this.character = this.physics.add.sprite(80,500,"character");
 		this.character.setOrigin(0,0);
 		this.character.play("character_walk");
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
@@ -87,10 +87,10 @@ class Room_2 extends Phaser.Scene {
 		});
 		this.physics.add.collider(this.character,wallLayer, () =>{});
 		this.physics.add.collider(this.character,upExitLayer,() =>{
-			console.log("saida baixo!");
+			console.log("saida up!");
 		});
 		this.physics.add.collider(this.character,leftExitLayer,() =>{
-			console.log("saida direita!");
+			console.log("saida esquerda!");
 		});
 		wallLayer.setCollisionByProperty({wall:true});
 		groundLayer.setCollisionByProperty({collides:true});

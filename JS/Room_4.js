@@ -48,7 +48,7 @@ class Room_4 extends Phaser.Scene {
 		*/
 
 
-		let character = this.character = this.physics.add.sprite(200,200,"character");
+		let character = this.character = this.physics.add.sprite(1000,200,"character");
 		this.character.setOrigin(0,0);
 		this.character.play("character_walk");
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
