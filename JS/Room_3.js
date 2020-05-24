@@ -48,6 +48,31 @@ class Room_3 extends Phaser.Scene {
 		rightExitLayer.setCollisionByProperty({right_exit:true});
 		downExitLayer.setCollisionByProperty({down_exit:true});
 
+		groundLayer.setTileLocationCallback(39,13,1,3,()=>{
+			if(gameSettings.available_rooms[i]>0){
+				var aux = Phaser.Math.Between(0,gameSettings.left_rooms.length-1);
+				var i;
+				var next_lvl=gameSettings.left_rooms[aux];
+				for (i=0;i<gameSettings.available_rooms.length;i++){
+					if(gameSettings.available_rooms[i]==gameSettings.left_rooms[aux]){
+						gameSettings.available_rooms.splice(i, 1);
+						break;
+					}
+				}
+				for (i=0;i<gameSettings.left_rooms.length;i++){
+					if(gameSettings.available_rooms[i]==gameSettings.left_rooms[aux]){
+						gameSettings.left_rooms.splice(aux,1);
+						break;
+					}
+				}
+				this.scene.start(next_lvl);
+			}else{
+				this.scene.start('Room_6');
+			}
+		});
+		groundLayer.setTileLocationCallback(0,23,1,3,()=>{console.log("left exit\n");});
+
+
 		//===========================================================LASER========================================================
 	//1
     	let laser_1 = this.laser_1 = this.physics.add.sprite(1184,416,"laser");
@@ -154,11 +179,9 @@ class Room_3 extends Phaser.Scene {
 	enemyBehaviour(){
 		if(this.enemy1.spotted_player==1 && this.character.invulnerable==0){
 			if (this.character.x+this.character.width < this.enemy1.x && this.enemy1.body.velocity.x >= 0) {
-				console.log("enemy going left");
 				this.enemy1.setVelocityX(-110);
 				this.enemy1.current_velocity=-110;
 			}else if (this.character.x > this.enemy1.x + this.enemy1.width && this.enemy1.body.velocity.x <= 0) {
-				console.log("enemy going right");
 				this.enemy1.setVelocityX(110);
 				this.enemy1.current_velocity=110;
 			}
@@ -253,7 +276,7 @@ class Room_3 extends Phaser.Scene {
 
 	update(){
 		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
-		console.log(gameSettings.room3.total_enemies);
+		console.log('left: '+gameSettings.left_rooms);
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
 		}
