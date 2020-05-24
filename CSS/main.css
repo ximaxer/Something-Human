@@ -12,6 +12,12 @@ body{
     background-size: auto;
     background-position: center center;
 }
+
+@font-face {
+  font-family: "pixel";
+  src:url("../resources/retganon.ttf") format("truetype");
+  src:url("../resources/retganon.otf") format("opentype");
+}
 #Aux{
     position: absolute;
     margin: 0px;
