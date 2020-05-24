@@ -16,7 +16,7 @@ class Room_1 extends Phaser.Scene {
 		this.load.spritesheet("enemy_4","../resources/characters/enemy4_tileset.png", {frameHeight: 114, frameWidth: 92});
 		this.load.spritesheet("character_running","../resources/characters/running_tileset.png", {frameWidth: 36, frameHeight: 69});
 		this.load.spritesheet("character_hurt","../resources/characters/hurt_tileset.png", {frameWidth: 23, frameHeight: 70});
-		this.load.spritesheet("jumping_anim","../resources/characters/jump_tileset.png", {frameWidth: 36, frameHeight: 86});
+		this.load.spritesheet("jumping_anim","../resources/characters/jump_tileset.png", {frameWidth: 36, frameHeight: 69});
 		this.load.spritesheet("slash_anim","../resources/characters/slash_tileset.png", {frameWidth: 50, frameHeight: 81});
 
 	}		
@@ -57,8 +57,8 @@ class Room_1 extends Phaser.Scene {
 		this.anims.create({
 			key: "character_slash",
 			frames: this.anims.generateFrameNumbers("slash_anim"),
-			frameRate: 52,
-			repeat: 0
+			frameRate: 14,
+			repeat: -1
 		});
 
 		this.anims.create({
@@ -251,7 +251,6 @@ class Room_1 extends Phaser.Scene {
 			if(this.a.isDown){
 				if(Phaser.Input.Keyboard.JustDown(this.a)){
 					if(this.character.grounded==1){
-						this.character.setSize(36,69,true)
 						this.character.play("character_run");
 					}
 					this.character.flipX = true;
@@ -261,7 +260,6 @@ class Room_1 extends Phaser.Scene {
 			}else if(this.d.isDown){
 				if(Phaser.Input.Keyboard.JustDown(this.d)){
 					if(this.character.grounded==1){
-						this.character.setSize(36,69,true)
 						this.character.play("character_run");
 					}
 					this.character.flipX = false;
@@ -279,20 +277,20 @@ class Room_1 extends Phaser.Scene {
 					this.character.jumps-=1;
 				}
 			}
-				//subtituir 40 do if() por weapon range
-				if(Phaser.Input.Keyboard.JustDown(this.j)){
-					this.character.body.setSize(50,81,true);
+					//subtituir 40 do if() por weapon range
+					if(Phaser.Input.Keyboard.JustDown(this.j)){
 					this.character.play("character_slash");
-					if(Phaser.Math.Distance.Between(this.enemy4.width/2+this.enemy4.x,this.enemy4.height/2+this.enemy4.y, this.character.width/2+this.character.x,this.character.height/2+this.character.y) < 90+4){
-						this.enemy4.health-=10; // 10 + weapon damage
-						if(this.enemy4.x>=this.character.x+this.character.width && this.character.y >= this.enemy4.y){
-	        				this.enemy4.x=this.enemy4.x+this.enemy4.width/2;
-						}else if(this.character.x>=this.enemy4.x+this.enemy4.width && this.character.y >= this.enemy4.y){
+						if(Phaser.Math.Distance.Between(this.enemy4.width/2+this.enemy4.x,this.enemy4.height/2+this.enemy4.y, this.character.width/2+this.character.x,this.character.height/2+this.character.y) < 90+4){
+				
+					this.enemy4.health-=10; // 10 + weapon damage
+					if(this.enemy4.x>=this.character.x+this.character.width && this.character.y >= this.enemy4.y){
+	        			this.enemy4.x=this.enemy4.x+this.enemy4.width/2;
+					}else if(this.character.x>=this.enemy4.x+this.enemy4.width && this.character.y >= this.enemy4.y){
 	        			this.enemy4.x=this.enemy4.x-this.enemy4.width/2;
-						}
 					}
 				}
 			}
+		}
 	}
 
 
