@@ -57,8 +57,8 @@ class Room_1 extends Phaser.Scene {
 		this.anims.create({
 			key: "character_slash",
 			frames: this.anims.generateFrameNumbers("slash_anim"),
-			frameRate: 14,
-			repeat: -1
+			frameRate: 50,
+			repeat: 0
 		});
 
 		this.anims.create({
@@ -277,11 +277,14 @@ class Room_1 extends Phaser.Scene {
 					this.character.jumps-=1;
 				}
 			}
-					//subtituir 40 do if() por weapon range
-					if(Phaser.Input.Keyboard.JustDown(this.j)){
-					this.character.play("character_slash");
-						if(Phaser.Math.Distance.Between(this.enemy4.width/2+this.enemy4.x,this.enemy4.height/2+this.enemy4.y, this.character.width/2+this.character.x,this.character.height/2+this.character.y) < 90+4){
-				
+			//subtituir 40 do if() por weapon range
+			if(Phaser.Input.Keyboard.JustDown(this.j)){
+			this.character.play("character_slash");
+				if(Phaser.Math.Distance.Between(this.enemy4.width/2+this.enemy4.x,this.enemy4.height/2+this.enemy4.y, this.character.width/2+this.character.x,this.character.height/2+this.character.y) < 90+4){
+					if(this.character.height==81){
+						this.character.y=this.character.y-12;
+						this.character.height=69;
+					}
 					this.enemy4.health-=10; // 10 + weapon damage
 					if(this.enemy4.x>=this.character.x+this.character.width && this.character.y >= this.enemy4.y){
 	        			this.enemy4.x=this.enemy4.x+this.enemy4.width/2;
@@ -296,7 +299,7 @@ class Room_1 extends Phaser.Scene {
 
 	update(){
 		this.text.setText(Math.floor(this.timer.getElapsedSeconds()));
-		console.log(Phaser.Math.Distance.Between(this.enemy4.width/2+this.enemy4.x,this.enemy4.height/2+this.enemy4.y, this.character.width/2+this.character.x,this.character.height/2+this.character.y));
+		console.log(this.character.height);
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
 		}
