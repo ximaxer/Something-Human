@@ -17,7 +17,7 @@ var gameSettings = {
 var config ={
 	width:1280,
 	height:960,
-	scene: [Room_1,Room_2,Room_3,Room_4,Room_5,Room_preboss],
+	scene: [Menu1,Room_1,Room_2,Room_3,Room_4,Room_5,Room_preboss],
 	pixelArt: true,
 	physics: {
 		default: "arcade",
