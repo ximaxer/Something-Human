@@ -12,10 +12,11 @@ class Room_1 extends Phaser.Scene {
 		this.load.image("terrain",("../resources/levels/level_1/room_1/room_1.png"));
 		this.load.image("tileset",("../resources/levels/level_1/room_1/Tileset.png"));
 		this.load.tilemapTiledJSON("map","../resources/levels/level_1/maps/room_1_tilemap.json");
+		this.load.spritesheet("laser","../resources/levels/level_1/laser_purp.png",{frameHeight:96,frameWidth:32});
 		this.load.spritesheet("hp_bar","../resources/characters/hp_tileset.png",{frameHeight:22, frameWidth:200});
 		this.load.spritesheet("enemy_4","../resources/characters/enemy4_tileset.png", {frameHeight: 114, frameWidth: 92});
 		this.load.spritesheet("character_running","../resources/characters/running_tileset.png", {frameWidth: 36, frameHeight: 69});
-		this.load.spritesheet("character_hurt","../resources/characters/hurt_tileset.png", {frameWidth: 23, frameHeight: 70});
+		this.load.spritesheet("character_hurt","../resources/characters/hurt_tileset.png", {frameWidth: 23, frameHeight: 69});
 		this.load.spritesheet("jumping_anim","../resources/characters/jump_tileset.png", {frameWidth: 36, frameHeight: 69});
 		this.load.spritesheet("slash_anim","../resources/characters/slash_tileset.png", {frameWidth: 50, frameHeight: 81});
 
@@ -38,9 +39,16 @@ class Room_1 extends Phaser.Scene {
     		'current_velocity': null,
     		'spotted_player': null,
     		'health':null,
+    		'dead':null,
     	},
 		this.character.grounded=0;
 		this.character.jumps=0;
+		this.anims.create({
+			key:"laser_anim",
+			frames: this.anims.generateFrameNumbers("laser"),
+			frameRate: 11,
+			repeat: -1
+		});
 		this.anims.create({
 			key: "HP_bar",
 			frames: this.anims.generateFrameNumbers("hp_bar"),
@@ -84,19 +92,30 @@ class Room_1 extends Phaser.Scene {
 
 		let enemy4 = this.enemy4 = this.physics.add.sprite(512,303,"enemy_4");
 		this.enemy4.setOrigin(0,0);
+		this.enemy4.setCollideWorldBounds(true);
 		this.enemy4.play("enemy4_walk");
 		this.enemy4.setVelocityX(110);
 		this.enemy4.current_velocity=110;
     	this.enemy4.spotted_player=0;
     	this.enemy4.health=100;
+    	this.enemy4.dead=0;
+		enemy4.body.setSize(enemy4.width,enemy4.height,true);
+		
+    	let laser_1 = this.laser_1 = this.physics.add.sprite(32,736,"laser");
+    	this.laser_1.setOrigin(0,0);
+    	this.laser_1.setImmovable(true);
+    	this.laser_1.play("laser_anim");
+
+    	let laser_2 = this.laser_2 = this.physics.add.sprite(1216,416,"laser");
+    	this.laser_2.setOrigin(0,0);
+    	this.laser_2.setImmovable(true);
+    	this.laser_2.play("laser_anim");
 
 		let character = this.character = this.physics.add.sprite(32,764,"character_running");
 		this.character.setOrigin(0,0);
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
 		this.character.setCollideWorldBounds(true);
 		character.body.setSize(character.width,character.height,true);
-		this.enemy4.setCollideWorldBounds(true);
-		enemy4.body.setSize(enemy4.width,enemy4.height,true);
 		
 
 		let health = this.hp_bar = this.physics.add.sprite(30,21,"hp_bar").setDepth(2);
@@ -123,6 +142,8 @@ class Room_1 extends Phaser.Scene {
 		let bgLayer = map.createStaticLayer("backgrounds", [background],0,0).setDepth(-2);
 
 		//collisions
+		var laser_1_ground = this.physics.add.collider(this.laser_1,groundLayer,() => {});
+		var laser_2_ground = this.physics.add.collider(this.laser_2,groundLayer,() => {});
 		var enemyPlatformCollider=this.physics.add.collider(this.enemy4,groundLayer, () =>{});
 		var enemyWallCollider=this.physics.add.collider(this.enemy4,wallLayer, () =>{
 			this.enemy4.setVelocityX(-this.enemy4.current_velocity);
@@ -175,6 +196,8 @@ class Room_1 extends Phaser.Scene {
 		this.character.invulnerable=0;
 		this.character.controlable=1;
 		this.physics.add.overlap(this.character, this.enemy4, this.hitEnemy, null, this);
+		this.physics.add.collider(this.character, this.laser_1, ()=>{});
+		this.physics.add.collider(this.character, this.laser_2, ()=>{});
 
 
 		this.total_enemies=1;
@@ -299,17 +322,21 @@ class Room_1 extends Phaser.Scene {
 
 	update(){
 		this.text.setText(Math.floor(this.timer.getElapsedSeconds()));
-		console.log(this.character.height);
+		console.log(this.total_enemies);
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
 		}
-		if(this.enemy4.health<=0){
+		if(this.enemy4.health<=0 && this.enemy4.dead == 0){
+			this.total_enemies-=1;
+			this.enemy4.dead=1;
 			this.enemy4.disableBody(true, true);
-			if (this.total_enemies == 0)
-        	{
-           		gameSettings.clear_room_1=1;
-        	}
+			
 		}
+		if (this.total_enemies == 0){
+       		gameSettings.clear_room_1=1;
+       		this.laser_1.disableBody(true,true);
+       		this.laser_2.disableBody(true,true);
+    	}
 		this.hp_bar.scaleX=1*gameSettings.playerHealth;
 		this.enemyFront();
 		this.enemySights();
