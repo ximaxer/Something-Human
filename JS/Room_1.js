@@ -84,10 +84,10 @@ class Room_1 extends Phaser.Scene {
     	this.laser_1.play("laser_anim");
 
     //2
-    	let laser_2 = this.laser_2 = this.physics.add.sprite(1216,416,"laser_sideways");
+    	let laser_2 = this.laser_2 = this.physics.add.sprite(1216,416,"laser");
     	this.laser_2.setOrigin(0,0);
     	this.laser_2.setImmovable(true);
-    	this.laser_2.play("laser_sideways_anim");
+    	this.laser_2.play("laser_anim");
 		
 
 
@@ -107,7 +107,7 @@ class Room_1 extends Phaser.Scene {
 
 	
 //===========================================================PLAYER========================================================
-		var character = this.character = this.physics.add.sprite(32,764,"character_running");
+		var character = this.character = this.physics.add.sprite(64,764,"character_running");
 		this.character.setOrigin(0,0);
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
 		this.character.setCollideWorldBounds(true);
