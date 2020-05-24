@@ -1,7 +1,7 @@
-var gameSettings = {
-	playerSpeed: 200,
-}
 
+var gameSettings = {
+	playerSpeed:200,playerHealth:1,clear_room_1:0,
+};
 
 
 

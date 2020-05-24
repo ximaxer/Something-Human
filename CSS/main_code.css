@@ -14,3 +14,8 @@ iframe
 * {
     outline: 0;
 }
+
+@font-face {
+  font-family: 'pixel';
+  src:url('../resources/retganon.ttf') format('truetype');
+}
