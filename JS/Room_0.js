@@ -7,6 +7,19 @@ class Room_0 extends Phaser.Scene {
 		this.tempo_atual=0;
 	}
 	create(){
+		this.music= this.sound.add("music");
+
+		var musicConfig = {
+			mute:false,
+			volume: 1,
+			rate:1,
+			detune:1,
+			seek:0,
+			loop:true,
+			delay:0,
+		}
+		this.music.play(musicConfig);
+
 
 		this.character = {
 			'controlable': null,

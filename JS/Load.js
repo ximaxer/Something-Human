@@ -6,10 +6,27 @@ class Load extends Phaser.Scene {
 	preload(){
 		this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 
+		this.load.audio("music",["../resources/levels/level_1/level_1_maybe.mp3"])
 		this.load.image("hp_outer",("../resources/characters/healthBar_outer.png"));
 		this.load.image("hp_bg",("../resources/characters/healthBar_bg.png"));
 
-
+		this.load.image("btnBack",("../resources/main_menu/buttons/button_default_base_blue_back.png"))
+		this.load.image("btnBackP",("../resources/main_menu/buttons/button_pressed_base_blue_back.png"))
+		this.load.image("btnRestart",("../resources/main_menu/buttons/button_default_base_blue_restart.png"))
+		this.load.image("btnRestartP",("../resources/main_menu/buttons/button_pressed_base_blue_restart.png"))
+        this.load.image("pausa",("../resources/pause_menu/pause_menu_p.png"));
+        this.load.image("btnSoundL",("../resources/pause_menu/not_pressed_lower_volume.png"));
+        this.load.image("btnSoundLP",("../resources/pause_menu/pressed_lower_volume.png"));
+        this.load.image("btnSoundR",("../resources/pause_menu/not_pressed_raise_volume.png"));
+        this.load.image("btnSoundRP",("../resources/pause_menu/pressed_raise_volume.png"));
+        this.load.image("btnMute",("../resources/pause_menu/not_pressed_mute.png"));
+        this.load.image("btnMuteP",("../resources/pause_menu/pressed_mute.png"));
+        this.load.image("btnUnmute",("../resources/pause_menu/not_pressed_unmute.png"));
+        this.load.image("btnUnmuteP",("../resources/pause_menu/pressed_unmute.png"));
+        this.load.image("btnResume",("../resources/pause_menu/not_pressed_resume.png"));
+        this.load.image("btnResumeP",("../resources/pause_menu/pressed_resume.png"));
+        this.load.image("btnQuit",("../resources/pause_menu/not_pressed_quit.png"));
+        this.load.image("btnQuitP",("../resources/pause_menu/pressed_quit.png"));
 		this.load.image("background_0",("../resources/levels/level_1/cockpit/background_f.png"));
 		this.load.image("bg_0",("../resources/levels/level_1/cockpit/bg.png"));
 		this.load.image("terrain_0",("../resources/levels/level_1/cockpit/cockpit.png"));

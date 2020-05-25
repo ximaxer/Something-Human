@@ -90,7 +90,7 @@ class Room_6 extends Phaser.Scene {
 				x=1;
 			}
 			if(Phaser.Input.Keyboard.JustDown(this.e)){
-				this.scene.start("ending");
+				this.scene.start("Ending",{score:this.elapsed});
 			}
 		});
 
