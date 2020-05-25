@@ -3,6 +3,9 @@ class Room_0 extends Phaser.Scene {
 	super("Room_0");
 	}
 
+	init(data){
+		this.tempo_atual=0;
+	}
 	create(){
 
 		this.character = {
@@ -69,11 +72,11 @@ class Room_0 extends Phaser.Scene {
 				gameSettings.currentScene+=1;
 				gameSettings.room_path.push(next_lvl);
 				if(next_lvl=="Room_1"){
-					this.scene.start(next_lvl,{posX:64,posY:764});
+					this.scene.start(next_lvl,{posX:64,posY:764,elasped:this.elapsed});
 				}else if(next_lvl=="Room_2"){
-					this.scene.start(next_lvl,{posX:64,posY:732});
+					this.scene.start(next_lvl,{posX:64,posY:732,elapsed:this.elapsed});
 				}else if(next_lvl=="Room_5"){
-					this.scene.start(next_lvl,{posX:96,posY:192});
+					this.scene.start(next_lvl,{posX:96,posY:192,elapsed:this.elapsed});
 				}
 			});
 
@@ -148,7 +151,8 @@ class Room_0 extends Phaser.Scene {
 
 
 	update(){
-		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
+		this.elapsed = Math.floor(this.timer.getElapsedSeconds())+this.tempo_atual;
+		this.text.setText(Math.floor(this.tempo_atual+this.timer.getElapsedSeconds()));
 		//console.log(this.getScenes(true));
 		this.hp_bar.scaleX=1*gameSettings.playerHealth;
 

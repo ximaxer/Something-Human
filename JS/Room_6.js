@@ -3,6 +3,10 @@ class Room_6 extends Phaser.Scene {
 	super("Room_6");
 	}
 
+	init(data){
+		this.tempo_atual = data.elapsed;
+	}
+
 
 	create(){
 		
@@ -155,7 +159,8 @@ class Room_6 extends Phaser.Scene {
 	}
 
 	update(){
-		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
+		this.elapsed = Math.floor(this.timer.getElapsedSeconds())+this.tempo_atual;
+		this.text.setText(Math.floor(this.tempo_atual+this.timer.getElapsedSeconds()));
 		//console.log(this.getScenes(true));
 		this.hp_bar.scaleX=1*gameSettings.playerHealth;
 

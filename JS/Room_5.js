@@ -7,8 +7,7 @@ class Room_5 extends Phaser.Scene {
 		this.characterX=data.posX;
 		this.characterY=data.posY;
 
-		this.tempo = data.tempo_tot;
-
+		this.tempo_atual = data.elapsed;
 	}
 
 
@@ -123,9 +122,9 @@ class Room_5 extends Phaser.Scene {
 		var rightExitCollision=this.physics.add.collider(this.character,leftExitLayer,()=>{
 			gameSettings.currentScene-=1;
 			if(gameSettings.room_path[gameSettings.currentScene]=="Room_1"){
-				this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:1152,posY:416});
+				this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:1152,posY:416,elapsed:this.elapsed});
 			}else if(gameSettings.room_path[gameSettings.currentScene]=="Room_3"){
-				this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:1120,posY:416});
+				this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:1120,posY:416,elapsed:this.elapsed});
 			}else{
 				gameSettings.currentScene+=1;
 			}
@@ -147,12 +146,12 @@ class Room_5 extends Phaser.Scene {
 				gameSettings.currentScene+=1;
 				gameSettings.room_path.push(next_lvl);
 				if(next_lvl=="Room_4"){
-					this.scene.start(next_lvl,{posX:1056,posY:140});
+					this.scene.start(next_lvl,{posX:1056,posY:140,elapsed:this.elapsed});
 				}
 			}else if(gameSettings.room5.cleared==1 && typeof gameSettings.room_path[gameSettings.currentScene+1] !== 'undefined'){
 				gameSettings.currentScene+=1;
 				if(gameSettings.room_path[gameSettings.currentScene]=="Room_4"){
-					this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:1056,posY:140});
+					this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:1056,posY:140,elapsed:this.elapsed});
 				}else{
 					gameSettings.currentScene-=1;
 				}
@@ -297,7 +296,8 @@ class Room_5 extends Phaser.Scene {
     }
 
 	update(){
-		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
+		this.elapsed = Math.floor(this.timer.getElapsedSeconds())+this.tempo_atual;
+		this.text.setText(Math.floor(this.tempo_atual+this.timer.getElapsedSeconds()));
 		//console.log(this.getScenes(true));
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
