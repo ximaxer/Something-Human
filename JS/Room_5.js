@@ -50,28 +50,6 @@ class Room_5 extends Phaser.Scene {
 		downExitLayer.setCollisionByProperty({down_exit:true});
 
 
-		groundLayer.setTileLocationCallback(19,29,2,1,()=>{
-			if(gameSettings.available_rooms[i]>0){
-				var aux = Phaser.Math.Between(0,gameSettings.top_rooms.length-1);
-				var i;
-				var next_lvl=gameSettings.top_rooms[aux];
-				for (i=0;i<gameSettings.available_rooms.length;i++){
-					if(gameSettings.available_rooms[i]==gameSettings.top_rooms[aux]){
-						gameSettings.available_rooms.splice(i, 1);
-						break;
-					}
-				}
-				for (i=0;i<gameSettings.top_rooms.length;i++){
-					if(gameSettings.available_rooms[i]==gameSettings.top_rooms[aux]){
-						gameSettings.top_rooms.splice(aux,1);
-						break;
-					}
-				}
-				this.scene.start(next_lvl);
-			}else{
-				this.scene.start('Room_6');
-			}
-		});
 		groundLayer.setTileLocationCallback(0,23,1,3,()=>{console.log("left exit\n");});
 
 //===========================================================LASER========================================================
@@ -129,12 +107,28 @@ class Room_5 extends Phaser.Scene {
 
 
 	//player
-		var laserCollider=this.physics.add.collider(this.character,downExitLayer, () =>{
-			if(gameSettings.room5.total_enemies==0){
-				downExitLayer.setCollisionByProperty({down_exit: true}, false);
-				this.physics.world.removeCollider(this.laserCollider);
+		var leftExitCollision=this.physics.add.collider(this.character,leftExitLayer,()=>{});
+		var downExitCollision = this.physics.add.collider(this.character,downExitLayer,()=>{
+			if(gameSettings.available_rooms.length>0){
+				var aux = Phaser.Math.Between(0,gameSettings.top_rooms.length-1);
+				var i;
+				var next_lvl=gameSettings.top_rooms[aux];
+				for (i=0;i<gameSettings.available_rooms.length;i++){
+					if(gameSettings.available_rooms[i]==gameSettings.top_rooms[aux]){
+						gameSettings.available_rooms.splice(i, 1);
+						break;
+					}
+				}
+				for (i=0;i<gameSettings.top_rooms.length;i++){
+					if(gameSettings.available_rooms[i]==gameSettings.top_rooms[aux]){
+						gameSettings.top_rooms.splice(aux,1);
+						break;
+					}
+				}
+				this.scene.start(next_lvl);
 			}
-		});
+		})
+		var laserCollider=this.physics.add.collider(this.character,this.laser_2, () =>{});
 		var playerPlatformCollider=this.physics.add.collider(this.character,groundLayer, () =>{
 			this.character.grounded=1;
 			this.character.jumps=2;
@@ -275,7 +269,7 @@ class Room_5 extends Phaser.Scene {
 
 	update(){
 		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
-		console.log('down: '+gameSettings.top_rooms);
+		console.log(gameSettings.available_rooms);
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
 		}

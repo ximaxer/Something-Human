@@ -46,8 +46,10 @@ class Room_1 extends Phaser.Scene {
 
 		//layers
 		let wallLayer = map.createStaticLayer("walls", [terrain,tileset_base],0,0);
+		let laserLayer = map.createStaticLayer("laser",[terrain],0,0).setDepth(-4);
 		let edgesLayer = map.createStaticLayer("edges", [terrain,tileset_base],0,0);
 		let groundLayer = map.createStaticLayer("platforms", [terrain,tileset_base],0,0);
+		let exitRightLayer = map.createStaticLayer("right_exit",[terrain],0,0).setDepth(-4);
 		let npc_pathLayer = map.createStaticLayer("npc_path", [background],0,0).setDepth(1);
 		let bgLayer = map.createStaticLayer("backgrounds", [background],0,0).setDepth(-2);
 
@@ -55,29 +57,9 @@ class Room_1 extends Phaser.Scene {
 		edgesLayer.setCollisionByProperty({edge:true});
 		groundLayer.setCollisionByProperty({collides:true});
 		npc_pathLayer.setCollisionByProperty({turning_point:true});
+		exitRightLayer.setCollisionByProperty({right_exit:true});
+		laserLayer.setCollisionByProperty({laser:true});
 
-		groundLayer.setTileLocationCallback(39,13,1,3,()=>{
-			if(gameSettings.available_rooms.length>0){
-				var aux = Phaser.Math.Between(0,gameSettings.left_rooms.length-1);
-				var i;
-				var next_lvl=gameSettings.left_rooms[aux];
-				for (i=0;i<gameSettings.available_rooms.length;i++){
-					if(gameSettings.available_rooms[i]==gameSettings.left_rooms[aux]){
-						gameSettings.available_rooms.splice(i, 1);
-						break;
-					}
-				}
-				for (i=0;i<gameSettings.left_rooms.length;i++){
-					if(gameSettings.available_rooms[i]==gameSettings.left_rooms[aux]){
-						gameSettings.left_rooms.splice(aux,1);
-						break;
-					}
-				}
-				this.scene.start(next_lvl);
-			}else{
-				this.scene.start('Room_6');
-			}
-		});
 		groundLayer.setTileLocationCallback(0,23,1,3,()=>{console.log("left exit\n");});
 
 //===========================================================LASER========================================================
@@ -143,6 +125,24 @@ class Room_1 extends Phaser.Scene {
 
 
 	//player
+		var levelcollision = this.physics.add.collider(this.character,exitRightLayer,()=>{
+			if(gameSettings.available_rooms.length>0){
+				var aux = Phaser.Math.Between(0,gameSettings.left_rooms.length-1);
+				var i;
+				var next_lvl=gameSettings.left_rooms[aux];
+				for (i=0;i<gameSettings.available_rooms.length;i++){
+					if(gameSettings.available_rooms[i]==gameSettings.left_rooms[aux]){
+						gameSettings.available_rooms.splice(i, 1);
+						gameSettings.left_rooms.splice(aux,1);
+						break;
+					}
+				}
+
+				this.scene.start(next_lvl);
+			}else{
+				this.scene.start('Room_6');
+			}
+		})
 		var playerPlatformCollider=this.physics.add.collider(this.character,groundLayer, () =>{
 			this.character.grounded=1;
 			this.character.jumps=2;
@@ -292,7 +292,7 @@ class Room_1 extends Phaser.Scene {
 
 	update(){
 		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
-		console.log('left: ' + gameSettings.left_rooms);
+		console.log(gameSettings.available_rooms);
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
 		}

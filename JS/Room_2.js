@@ -283,7 +283,7 @@ class Room_2 extends Phaser.Scene {
 
 	update(){
 		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
-		console.log('up: '+gameSettings.bottom_rooms);
+		console.log(gameSettings.available_rooms);
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
 		}

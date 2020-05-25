@@ -49,7 +49,7 @@ class Room_3 extends Phaser.Scene {
 		downExitLayer.setCollisionByProperty({down_exit:true});
 
 		groundLayer.setTileLocationCallback(39,13,1,3,()=>{
-			if(gameSettings.available_rooms[i]>0){
+			if(gameSettings.available_rooms.length>0){
 				var aux = Phaser.Math.Between(0,gameSettings.left_rooms.length-1);
 				var i;
 				var next_lvl=gameSettings.left_rooms[aux];
@@ -276,7 +276,7 @@ class Room_3 extends Phaser.Scene {
 
 	update(){
 		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
-		console.log('left: '+gameSettings.left_rooms);
+		console.log(gameSettings.available_rooms);
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
 		}
