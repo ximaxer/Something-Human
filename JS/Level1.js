@@ -37,7 +37,7 @@ function death(){
 var config ={
 	width:1280,
 	height:960,
-	scene: [Menu1,Ranking,Load,Room_0,Room_1,Room_2,Room_3,Room_4,Room_5,Room_6,Ending],
+	scene: [Menu1,Ranking,Load,Opcoes,Room_0,Room_1,Room_2,Room_3,Room_4,Room_5,Room_6,Ending,Pausa],
 	pixelArt: true,
 	physics: {
 		default: "arcade",

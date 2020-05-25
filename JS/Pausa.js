@@ -1,22 +1,8 @@
 class Pausa extends Phaser.Scene {
     constructor(){
-        super("pausa");
+        super("Pausa");
     }
-    preload(){
-        this.load.image("pausa",("../resources/pause_menu/pause_menu_p"));
-        this.load.image("btnSoundL",("../resources/pause_menu/not_pressed_lower_volume"));
-        this.load.image("btnSoundLP",("../resources/pause_menu/pressed_lower_volume"));
-        this.load.image("btnSoundR",("../resources/pause_menu/not_pressed_raise_volume"));
-        this.load.image("btnSoundRP",("../resources/pause_menu/pressed_raise_volume"));
-        this.laod.image("btnMute",("../resources/pause_menu/not_pressed_mute"));
-        this.laod.image("btnMuteP",("../resources/pause_menu/pressed_mute"));
-        this.laod.image("btnUnmute",("../resources/pause_menu/not_pressed_unmute"));
-        this.laod.image("btnUnmuteP",("../resources/pause_menu/pressed_unmute"));
-        this.load.image("btnResume",("../resources/pause_menu/not_pressed_resume"));
-        this.load.image("btnResumeP",("../resources/pause_menu/pressed_resume"));
-        this.load.image("btnQuit",("../resources/pause_menu/not_pressed_quit"));
-        this.load.image("btnQuitP",("../resources/pause_menu/pressed_quit"));
-    }
+
     init(data){
         this.background=data.background;
         this.sceneName=data.sceneName;
@@ -27,40 +13,51 @@ class Pausa extends Phaser.Scene {
         //this.veil.fillStyle('0x000000',0.3);
         //this.veil.fillRect(0,0,config.width, config.height);
         this.imagem = this.add.image(config.width/2,config.height/2,'pausa');
+        this.imagem.setScale(1.3);
 
-        this.btnSoundL = this.add.image(340,290,'btnSoundL');
-        this.btnSoundL.setScale(0.028);
-        this.btnSoundLP = this.add.image(340,290,'btnSoundLP');
-        this.btnSoundLP.setScale(0.119);
+        this.btnSoundL = this.add.image(576,300,'btnSoundL');
+        this.btnSoundL.setOrigin(0,0)
+        this.btnSoundL.setScale(1);
+        this.btnSoundLP = this.add.image(576,300,'btnSoundLP');
+        this.btnSoundLP.setOrigin(0,0)
+        this.btnSoundLP.setScale(1);
         this.btnSoundLP.visible=false;
         
-        this.btnSoundR = this.add.image(420,290,'btnSoundR');
-        this.btnSoundR.setScale(0.028);
-        this.btnSoundRP = this.add.image(420,290,'btnSoundRP');
-        this.btnSoundRP.setScale(0.119);
+        this.btnSoundR = this.add.image(576,360,'btnSoundR');
+        this.btnSoundR.setOrigin(0,0)
+        this.btnSoundR.setScale(1);
+        this.btnSoundRP = this.add.image(576,360,'btnSoundRP');
+        this.btnSoundRP.setOrigin(0,0)
+        this.btnSoundRP.setScale(1);
         this.btnSoundRP.visible=false;
         
         
-        this.btnMute = this.add.image(500,290,'btnMute');
-        this.btnMute.setScale(0.028);
+        this.btnMute = this.add.image(576,420,'btnMute');
+        this.btnMute.setOrigin(0,0);
+        this.btnMute.setScale(1);
         // this.btnMuteM.visible=false;
-        this.btnMuteP = this.add.image(500,290,'btnMuteP');
-        this.btnMuteP.setScale(0.119);
+        this.btnMuteP = this.add.image(576,420,'btnMuteP');
+        this.btnMuteP.setOrigin(0,0);
+        this.btnMuteP.setScale(1);
         this.btnMuteP.visible=false;
 
-        this.btnUnmute = this.add.image(500,290,'btnUnmute');
-        this.btnUnmute.setScale(0.028);
-        this.btnUnmute.visible=false;
-        this.btnUnmuteP = this.add.image(500,290,'btnUnmuteP');
-        this.btnUnmuteP.setScale(0.014);
+        this.btnUnmute = this.add.image(576,480,'btnUnmute');
+        this.btnUnmute.setOrigin(0,0);
+        this.btnUnmute.setScale(1);
+        //this.btnUnmute.visible=false;
+        this.btnUnmuteP = this.add.image(576,480,'btnUnmuteP');
+        this.btnUnmuteP.setOrigin(0,0);
+        this.btnUnmuteP.setScale(1);
         this.btnUnmuteP.visible=false;
 
         
         //btn voltar
-        this.btnResume = this.add.image(350,360,'btnResume');
-        this.btnResume.setScale(0.07);
-        this.btnResumeP = this.add.image(350,360,'btnResumeP');
-        this.btnResumeP.setScale(0.3);
+        this.btnResume = this.add.image(576,540,'btnResume');
+        this.btnResume.setOrigin(0,0);
+        this.btnResume.setScale(1);
+        this.btnResumeP = this.add.image(576,540,'btnResumeP');
+        this.btnResumeP.setOrigin(0,0);
+        this.btnResumeP.setScale(1);
         this.btnResumeP.visible=false;
 
         /*this.btnAjuda = this.add.image(350,425,'btnAjuda');
@@ -70,10 +67,12 @@ class Pausa extends Phaser.Scene {
         this.btnAjudac.visible=false;
         */
         //btn sair
-        this.btnQuit = this.add.image(350,490,'btnQuit');
-        this.btnQuit.setScale(0.07);
-        this.btnQuitP = this.add.image(350,490,'btnQuitP');
-        this.btnQuitP.setScale(0.3);
+        this.btnQuit = this.add.image(576,600,'btnQuit');
+        this.btnQuit.setOrigin(0,0);
+        this.btnQuit.setScale(1);
+        this.btnQuitP = this.add.image(576,600,'btnQuitP');
+        this.btnQuitP.setOrigin(0,0);
+        this.btnQuitP.setScale(1);
         this.btnQuitP.visible=false;
         
 
@@ -205,11 +204,14 @@ class Pausa extends Phaser.Scene {
         this.btnQuit.on("pointerup", ()=>{
             //this.game.canvas.style.cursor = "default";
             this.scene.stop();
+            this.scene.stop("Room_0");
             this.scene.stop("Room_1");
             this.scene.stop("Room_2");
             this.scene.stop("Room_3");
             this.scene.stop("Room_4");
             this.scene.stop("Room_5");
+            this.scene.stop("Room_preboss");
+            this.scene.stop(sceneName);
             this.scene.start("Menu1");
         
         });

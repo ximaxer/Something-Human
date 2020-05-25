@@ -105,7 +105,7 @@ class Room_6 extends Phaser.Scene {
 		this.w = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 		this.j = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
 		this.e = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-		
+		this.pause = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
 
 
@@ -166,6 +166,11 @@ class Room_6 extends Phaser.Scene {
 
 		this.movePlayerManager();
 		this.bg.tilePositionX -=.3;
+
+		if(Phaser.Input.Keyboard.JustDown(this.pause)){
+            this.scene.pause();
+            this.scene.launch("Pausa",{background:this.background, sceneName:"Room_6"});
+        }
 	}
 
 }

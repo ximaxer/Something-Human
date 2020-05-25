@@ -106,7 +106,7 @@ class Menu1 extends Phaser.Scene {
         this.options_button.on("pointerup", ()=>{
             this.game.canvas.style.cursor = "default";
             console.log("up Opcoes");
-            this.scene.start("opcoes")
+            //this.scene.start("Opcoes")
         });
 
         this.ranking_button.setInteractive();
