@@ -8,6 +8,12 @@ class Load extends Phaser.Scene {
 
 		this.load.image("hp_outer",("../resources/characters/healthBar_outer.png"));
 		this.load.image("hp_bg",("../resources/characters/healthBar_bg.png"));
+
+
+		this.load.image("background_0",("../resources/levels/level_1/cockpit/background_f.png"));
+		this.load.image("bg_0",("../resources/levels/level_1/cockpit/bg.png"));
+		this.load.image("terrain_0",("../resources/levels/level_1/cockpit/cockpit.png"));
+		this.load.tilemapTiledJSON("map_0","../resources/levels/level_1/maps/cockpit_tilemap.json");
 		this.load.image("background_1",("../resources/levels/level_1/room_1/background_f.png"));
 		this.load.image("bg_1",("../resources/levels/level_1/room_1/bg.png"));
 		this.load.image("terrain_1",("../resources/levels/level_1/room_1/room_1.png"));
@@ -29,6 +35,11 @@ class Load extends Phaser.Scene {
 		this.load.image("bg_5",("../resources/levels/level_1/room_5/bg.png"))
 		this.load.image("terrain_5",("../resources/levels/level_1/room_5/room_5.png"));
 		this.load.tilemapTiledJSON("map_5","../resources/levels/level_1/maps/room_5_tilemap.json")
+		this.load.image("background_6",("../resources/levels/level_1/room_preboss/background_f.png"));
+		this.load.image("bg_6",("../resources/levels/level_1/room_preboss/bg.png"))
+		this.load.image("door",("../resources/levels/level_1/room_preboss/door.png"))
+		this.load.image("terrain_6",("../resources/levels/level_1/room_preboss/room_preboss.png"));
+		this.load.tilemapTiledJSON("map_6","../resources/levels/level_1/maps/room_preboss_tilemap.json")
 		this.load.spritesheet("laser","../resources/levels/level_1/laser_purp.png",{frameHeight:96,frameWidth:32});
 		this.load.spritesheet("laser_sideways","../resources/levels/level_1/laser_purp_sideways.png",{frameHeight:32,frameWidth:128});
 		this.load.spritesheet("hp_bar","../resources/characters/hp_tileset.png",{frameHeight:22, frameWidth:200});
@@ -93,6 +104,6 @@ class Load extends Phaser.Scene {
 			repeat: -1
 		});
 
-		this.scene.start("Room_1");
+		this.scene.start("Room_0");
 	}
 }

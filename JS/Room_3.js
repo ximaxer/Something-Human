@@ -2,6 +2,14 @@ class Room_3 extends Phaser.Scene {
 	constructor(){
 	super("Room_3");
 	}
+	
+	init(data){
+		this.characterX=data.posX;
+		this.characterY=data.posY;
+
+		this.tempo = data.tempo_tot;
+
+	}
 
 	create(){
 
@@ -41,39 +49,19 @@ class Room_3 extends Phaser.Scene {
 		let downExitLayer = map.createStaticLayer("down_exit",[terrain],0,0).setDepth(-3);
 		let groundLayer = map.createStaticLayer("platforms", [terrain],0,0);
 		let bgLayer = map.createStaticLayer("backgrounds", [background],0,0).setDepth(-2);
+		this.laserLayer = map.createStaticLayer("laser",[terrain],0,0).setDepth(-5);
 
 		wallLayer.setCollisionByProperty({wall:true});
 		groundLayer.setCollisionByProperty({collides:true});
 		npc_pathLayer.setCollisionByProperty({turning_point:true});
 		rightExitLayer.setCollisionByProperty({right_exit:true});
 		downExitLayer.setCollisionByProperty({down_exit:true});
+		this.laserLayer.setCollisionByProperty({laser:true});
 
-		groundLayer.setTileLocationCallback(39,13,1,3,()=>{
-			if(gameSettings.available_rooms.length>0){
-				var aux = Phaser.Math.Between(0,gameSettings.left_rooms.length-1);
-				var i;
-				var next_lvl=gameSettings.left_rooms[aux];
-				for (i=0;i<gameSettings.available_rooms.length;i++){
-					if(gameSettings.available_rooms[i]==gameSettings.left_rooms[aux]){
-						gameSettings.available_rooms.splice(i, 1);
-						break;
-					}
-				}
-				for (i=0;i<gameSettings.left_rooms.length;i++){
-					if(gameSettings.available_rooms[i]==gameSettings.left_rooms[aux]){
-						gameSettings.left_rooms.splice(aux,1);
-						break;
-					}
-				}
-				this.scene.start(next_lvl);
-			}else{
-				this.scene.start('Room_6');
-			}
-		});
 		groundLayer.setTileLocationCallback(0,23,1,3,()=>{console.log("left exit\n");});
 
 
-		//===========================================================LASER========================================================
+//===========================================================LASER========================================================
 	//1
     	let laser_1 = this.laser_1 = this.physics.add.sprite(1184,416,"laser");
     	this.laser_1.setOrigin(0,0);
@@ -86,20 +74,23 @@ class Room_3 extends Phaser.Scene {
     	this.laser_2.play("laser_sideways_anim");
 
 //===========================================================ENEMY========================================================
-		let enemy1 = this.enemy1 = this.physics.add.sprite(192,256,"enemy_1");
-		this.enemy1.setOrigin(0,0);
-		this.enemy1.setCollideWorldBounds(true);
-		this.enemy1.play("enemy1_walk");
-		this.enemy1.setVelocityX(110);
-		this.enemy1.current_velocity=110;
-    	this.enemy1.spotted_player=0;
-    	this.enemy1.health=100;
-    	this.enemy1.dead=0;
-		enemy1.body.setSize(enemy1.width,enemy1.height,true);
-		enemy1.setGravityY(575);
+		if(gameSettings.room3.total_enemies>0){
+			let enemy1 = this.enemy1 = this.physics.add.sprite(192,256,"enemy_1");
+			this.enemy1.setOrigin(0,0);
+			this.enemy1.setCollideWorldBounds(true);
+			this.enemy1.play("enemy1_walk");
+			this.enemy1.setVelocityX(110);
+			this.enemy1.current_velocity=110;
+	    	this.enemy1.spotted_player=0;
+	    	this.enemy1.health=100;
+	    	this.enemy1.dead=0;
+			enemy1.body.setSize(enemy1.width,enemy1.height,true);
+			enemy1.setGravityY(575);
+		}
 
 //===========================================================PLAYER========================================================
-		this.character = this.physics.add.sprite(320,800,"character_running");
+		this.laserCollision=this.physics.add.collider(this.character,this.laserLayer,()=>{});
+		this.character = this.physics.add.sprite(this.characterX,this.characterY,"character_running");
 		this.character.setOrigin(0,0);
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
 		this.character.setCollideWorldBounds(true);
@@ -128,9 +119,54 @@ class Room_3 extends Phaser.Scene {
 
 
 	//player
-		var laserCollider=this.physics.add.collider(this.character,downExitLayer, () =>{
+		var downExitCollision = this.physics.add.collider(this.character,downExitLayer,()=>{
+			gameSettings.currentScene-=1;
+			if(gameSettings.room_path[gameSettings.currentScene]=="Room_2"){
+				this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:480,posY:160});
+			}else{
+				gameSettings.currentScene+=1;
+			}
+		});
+		var rightExitCollision = this.physics.add.collider(this.character,rightExitLayer,()=>{
+			if(gameSettings.available_rooms.length>0 && gameSettings.room3.cleared!=1){
+       			gameSettings.room3.cleared=1;
+				var aux = Phaser.Math.Between(0,gameSettings.left_rooms.length-1);
+				var i;
+				var next_lvl=gameSettings.left_rooms[aux];
+				for (i=0;i<gameSettings.available_rooms.length;i++){
+					if(gameSettings.available_rooms[i]==gameSettings.left_rooms[aux]){
+						gameSettings.available_rooms.splice(i, 1);
+						gameSettings.left_rooms.splice(aux,1);
+						break;
+					}
+				}
+				gameSettings.currentScene+=1;
+				gameSettings.room_path.push(next_lvl);
+				if(next_lvl=="Room_2"){
+					this.scene.start(next_lvl,{posX:64,posY:732});
+				}else if(next_lvl=="Room_5"){
+					this.scene.start(next_lvl,{posX:96,posY:192});
+				}else if(next_lvl=="Room_1"){
+					this.scene.start(next_lvl,{posX:64,posY:764});
+				};
+			}else if(gameSettings.room3.cleared==1 && typeof gameSettings.room_path[gameSettings.currentScene+1] !== 'undefined'){
+				gameSettings.currentScene+=1;
+				if(gameSettings.room_path[gameSettings.currentScene]=="Room_2"){
+					this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:64,posY:732});
+				}else if(gameSettings.room_path[gameSettings.currentScene]=="Room_5"){
+					this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:96,posY:192});
+				}else if(gameSettings.room_path[gameSettings.currentScene]=="Room_1"){
+					this.scene.start(gameSettings.room_path[gameSettings.currentScene],{posX:64,posY:764});
+				}else{
+					gameSettings.currentScene-=1;
+				}
+			}else{
+				this.scene.start('Room_6');
+			}
+		});
+		var laserCollider=this.physics.add.collider(this.character,this.laserLayer, () =>{
 			if(gameSettings.room3.total_enemies==0){
-				downExitLayer.setCollisionByProperty({down_exit: true}, false);
+				this.laserLayer.setCollisionByProperty({down_exit: true}, false);
 				this.physics.world.removeCollider(this.laserCollider);
 			}
 		});
@@ -276,7 +312,7 @@ class Room_3 extends Phaser.Scene {
 
 	update(){
 		this.text.setText(Math.floor(this.tempo+this.timer.getElapsedSeconds()));
-		console.log(gameSettings.available_rooms);
+		//console.log(this.getScenes(true));
 		if (Math.floor(this.timer.getElapsedSeconds())==Math.floor(this.tempo_invuln+1)){
 			this.character.invulnerable=0;
 		}
@@ -287,10 +323,15 @@ class Room_3 extends Phaser.Scene {
 			
 		}
 		if (gameSettings.room3.total_enemies == 0){
-       		gameSettings.room3.cleared=1;
+			this.laserLayer.setCollisionByProperty({laser: true}, false);
+			this.physics.world.removeCollider(this.laserCollision);
        		this.laser_1.disableBody(true,true);
        		this.laser_2.disableBody(true,true);
     	}
+		if(gameSettings.playerHealth<=0){
+			death();
+			this.scene.start('Room_0');
+		}
 		this.hp_bar.scaleX=1*gameSettings.playerHealth;
 		this.enemyFront();
 		this.enemySights();
